@@ -1,0 +1,97 @@
+#!/usr/bin/env node
+
+/**
+ * @license
+ * Copyright 2015 Telefónica I+D
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+'use strict';
+
+var program = require('commander'),
+    conf = require('../lib/config'),
+    irisFaker = require('../lib/index');
+
+var command = null;
+
+//Configure commander
+program
+    .version(require('../package.json').version);
+
+program
+    .command('elastic')
+    .description('Writes traces to Elastic Search')
+    .action(function() {
+      command = 'elastic';
+    });
+
+
+//TODO: need to access private definitions in convict, cause conf.toSchemaString()
+//      does not give all needed
+Object.keys(conf._def).forEach(function(paramName) {
+  //TODO: will convict support short options?
+  var param = conf._def[paramName];
+  if (!param.arg) {
+    return;
+  }
+  var def = '--' + param.arg + (param.format !== Boolean ?
+      ' <' + paramName + '>' :
+          '');
+  var doc = param.doc + (param.default == null ? ' (mandatory)' : ' [default: ' + param.default + ']');
+  program
+      .option(def, doc)
+      .option('', 'Environment var: ' + conf._def[paramName].env);
+});
+
+program.on('--help', function() {
+  console.error('  Examples:');
+  console.error('');
+  console.error('  Write to elasticsearch server directly');
+  console.error('    $ irisfaker elastic');
+  console.error('');
+});
+
+program.parse(process.argv);
+
+try {
+  //dont pass any config, delegate to convict the specified one
+  var api = irisFaker();
+
+  if (!api[command]) {
+    program.outputHelp();
+    fail();
+  }
+
+  api[command](function(err, res) {
+    if (err) {
+      return fail(err);
+    }
+    success(res);
+  });
+
+} catch (e) {
+  fail(e);
+}
+
+//////////////////////
+
+function fail(err) {
+  err && console.error(err);
+  process.exit(1);
+}
+
+function success() {
+  process.exit(0);
+}
+
+

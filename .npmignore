@@ -1,0 +1,23 @@
+# Directories
+.idea/
+node_modules/
+coverage/
+dist/
+test/
+build/
+
+
+# Files
+npm-debug.log
+.gitignore
+.npmignore
+.jscsrc
+.eslintrc
+.npmrc
+.gitignore
+.istanbul.yml
+.travis.yml
+CONTRIBUTING.md
+
+*.orig
+
