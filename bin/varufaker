@@ -20,7 +20,7 @@
 
 var program = require('commander'),
     conf = require('../lib/config'),
-    irisFaker = require('../lib/index');
+    varufaker = require('../lib/index');
 
 var command = null;
 
@@ -33,6 +33,13 @@ program
     .description('Writes traces to Elastic Search')
     .action(function() {
       command = 'elastic';
+    });
+
+program
+    .command('stdout')
+    .description('Writes traces to stdout')
+    .action(function() {
+      command = 'stdout';
     });
 
 
@@ -56,8 +63,15 @@ Object.keys(conf._def).forEach(function(paramName) {
 program.on('--help', function() {
   console.error('  Examples:');
   console.error('');
-  console.error('  Write to elasticsearch server directly');
-  console.error('    $ irisfaker elastic');
+  console.error('  Write to stdout');
+  console.error('    $ varufaker stdout');
+  console.error('');
+  console.error('  Write to a file');
+  console.error('    $ varufaker stdout > ./out.txt');
+  console.error('');
+  console.error('  Write to elasticsearch server directly[1]');
+  console.error('    $ varufaker elastic');
+  console.error('  [1] Only JSON templates are supported in this writer');
   console.error('');
 });
 
@@ -65,19 +79,15 @@ program.parse(process.argv);
 
 try {
   //dont pass any config, delegate to convict the specified one
-  var api = irisFaker();
+  var api = varufaker();
 
   if (!api[command]) {
     program.outputHelp();
     fail();
   }
 
-  api[command](function(err, res) {
-    if (err) {
-      return fail(err);
-    }
-    success(res);
-  });
+  api[command]()
+    .then(success, fail);
 
 } catch (e) {
   fail(e);
