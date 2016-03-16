@@ -46,6 +46,22 @@ varufaker --help
     $ varufaker elastic
   [1] Only JSON templates are supported in this writer
 ```
+## API 
+
+```js
+const varufaker = require('varufaker');
+
+let writer = varufaker({ // same options than in command line
+  every: 1000,
+  iterations: 1000,
+  template: '/path/to/template'
+});
+
+return writer.stdout()
+  .then(sucess => process.stderr.write('All went fine? ' + success)); // dont write to stdout spureous traces ;)
+
+
+```
 
 ## License
 
