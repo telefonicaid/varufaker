@@ -42,7 +42,6 @@ program
       command = 'stdout';
     });
 
-
 //TODO: need to access private definitions in convict, cause conf.toSchemaString()
 //      does not give all needed
 Object.keys(conf._def).forEach(function(paramName) {
@@ -103,5 +102,3 @@ function fail(err) {
 function success() {
   process.exit(0);
 }
-
-

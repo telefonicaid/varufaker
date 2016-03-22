@@ -46,6 +46,7 @@ varufaker --help
     $ varufaker elastic
   [1] Only JSON templates are supported in this writer
 ```
+
 ## API 
 
 ```js
@@ -55,8 +56,9 @@ let writer = varufaker({ // ALL OPTIONAL
   // same options than in command line
   every: 1000,
   iterations: 1000,
-  template: '/path/to/template'
+  template: '/path/to/template',
   // API only properties
+  templateStr: 'my {{cool}} template', // This takes precedence over the template property above
   // Add your own stream to get the traces in your logic
   stream: {
     // Called with the trace (string) to write 
@@ -76,7 +78,7 @@ varufaker.faker.custom = {
 
 //write to stdout
 writer.stdout()
-  .then(sucess => process.stderr.write('All went fine? ' + success)); // dont write to stdout spureous traces ;)
+  .then(success => process.stderr.write('All went fine? ' + success)); // dont write to stdout spurious traces ;)
 
 // write to your custom stream
 writer.stream().then(...);
