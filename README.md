@@ -33,6 +33,8 @@ varufaker --help
                                Environment var: VA_ESURL
     --esindex <esindex>        The ElasticSearch index to write to (faker format supported) [default: varufaker-{{tid.yyyymmdd}}]
                                Environment var: VA_ESINDEX
+    --verbose                  Write debug info to the stderr
+                               Environment var: VA_VERBOSE
 
   Examples:
 
@@ -57,6 +59,7 @@ let writer = varufaker({ // ALL OPTIONAL
   every: 1000,
   iterations: 1000,
   template: '/path/to/template',
+  verbose: true,  // Defaults to false
   // API only properties
   templateStr: 'my {{cool}} template', // This takes precedence over the template property above
   // Add your own stream to get the traces in your logic
