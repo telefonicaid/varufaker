@@ -24,13 +24,13 @@
     "faker": "^3.0.1",
     "find-root": "^0.1.1",
     "lodash": "^4.0.0",
-    "logops": "^1.0.0-alpha.5",
+    "logops": "^1.0.0-alpha.7",
     "moment": "^2.11.1",
     "therror": "^0.2.0"
   },
   "devDependencies": {
     "chai": "^3.0.0",
-    "conventional-changelog": "^0.5.3",
+    "conventional-changelog-cli": "^1.0.0",
     "eslint": "^1.10.3",
     "istanbul": "^0.4.2",
     "jscs": "^2.9.0",
