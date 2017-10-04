@@ -1,6 +1,6 @@
 {
   "name": "varufaker",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Small utility to generate log traces based on a template",
   "license": "Apache-2.0",
   "main": "lib/index.js",
